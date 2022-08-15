@@ -102,6 +102,8 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.suo
+
 
 # Chutzpah Test files
 _Chutzpah*
@@ -617,3 +619,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,executable,visualstudio,csharp
 *.exe
 .vs/test_7_game/v17/.suo
+.vs/test_7_game/v17/.suo
+*.lock
+*.pdb

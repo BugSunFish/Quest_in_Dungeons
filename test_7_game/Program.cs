@@ -8,6 +8,7 @@ namespace test_7_game
 {
     internal class Program 
     {
+        
         static void Main(string[] args)
         {
             //Рандомайзер
@@ -15,141 +16,70 @@ namespace test_7_game
             //Размер поля
             string[,] zone = new string[9, 16];
             //Комнаты
-            void Room0(int i, int j)
+            Rooms room = new Rooms();
+            void Room0(string[,] zone, int i, int j)
             {
-                switch (i, j)
-                {
-                    case (4, 2):
-                        zone[i, j] = " w";
-                        break;
-                    case (0, >= 0 and <= 4):
-                    case (1, >= 0 and <= 2):
-                    case (2, >= 0 and <= 1):
-                    case ( >= 3 and <= 6, 0):
-                    case (2, 3):
-                    case (4, 4):
-                    case (7, 1):
-                    case (3, 10):
-                    case (2, 11):
-                    case (7, 12):
-                    case (7, 8):
-                        zone[i, j] = " Y";
-                        break;
-                    case ( >= 1 and <= 3, 13):
-                    case (8, 13):
-                        zone[i, j] = " |";
-                        break;
-                    case (0, >= 4 and <= 13):
-                    case (3, >= 14 and <= 15):
-                    case (7, >= 14 and <= 15):
-                        zone[i, j] = "__";
-                        break;
-                    default:
-                        break;
-                }
-                Console.Write($" {zone[i, j]}");
+                room.Room0(zone, i, j);
             }
-            void Room1(int i, int j)
+            void Room1(string[,] zone, int i, int j)
             {
-
-                switch (i, j)
-                {
-                    case (5, 12):
-                        zone[i, j] = "* ";
-                        break;
-                    case (4, 0):
-                    case (5, 0):
-                    case (6, 0):
-                        zone[i, j] = " #";
-                        break;
-                    case (0, 10):
-                    case ( >= 2 and <= 8, 15):
-                        zone[i, j] = "| ";
-                        break;
-                    case (2, 1):
-                    case (8, 1):
-
-                    case (0, 6):
-                        zone[i, j] = " |";
-                        break;
-                    case (8, >= 2 and <= 14):
-                    case (1, >= 2 and <= 6):
-                    case (1, >= 10 and <= 14):
-                    case (7, 0):
-                    case (7, 1):
-                    case (3, 0):
-                    case (3, 1):
-                        zone[i, j] = "__";
-                        break;
-                    default:
-                        break;
-                }
-                Console.Write($" {zone[i, j]}");
+                room.Room1(zone, i, j);
             }
-            void Room2(int i, int j)
+            void Room2(string[,] zone, int i, int j)
             {
-                switch (i, j)
-                {
-                    case (4, 8):
-                        zone[i, j] = " ?";
-                        break;
-                    case ( >= 1 and <= 7, 15):
-                    case (8, 10):
-                        zone[i, j] = "| ";
-                        break;
-                    case (1, 1):
-                    case (7, 1):
-                    case (8, 6):
-                        zone[i, j] = " |";
-                        break;
-                    case (0, >= 2 and <= 14):
-                    case (7, >= 2 and <= 6):
-                    case (7, >= 10 and <= 14):
-                    case (2, >= 0 and <= 1):
-                    case (6, >= 0 and <= 1):
-                        zone[i, j] = "__";
-                        break;
-                    default:
-                        break;
-                }
-                Console.Write($" {zone[i, j]}");
+                room.Room2(zone, i, j);
             }
-            void Room3(int i, int j)
+            void Room3(string[,] zone, int i, int j)
             {
-                switch (i, j)
-                {
-                    case (>=1 and <=7, 0):
-                        zone[i, j] = " |";
-                        break;
-                    case ( >= 3 and <= 5, 15):
-                        zone[i, j] = " #";
-                        break;
-                    case (1, 14):
-                    case (8, 14):
-                        zone[i, j] = "| ";
-                        break;
-                    case (2, >= 14 and <= 15):
-                    case (6, >= 14 and <= 15):
-                    case (0, >= 1 and <= 13):
-                    case (8, >= 1 and <= 13):
-                        zone[i, j] = "__";
-                        break;
-                    case (4,3):
-                        zone[i, j] = "[]";
-                        break;
-                    default:
-                        break;
-                }
-                Console.Write($" {zone[i, j]}");
+                room.Room3(zone, i, j);
             }
-            void Room4(int i, int j)
+            void Room4d(string[,] zone, int i, int j)
             {
-                switch (i, j)
-                {
-                    default:
-                        break;
-                }
-                Console.Write($" {zone[i, j]}");
+                room.Room4d(zone, i, j);
+            }
+            void Room4(string[,] zone, int i, int j)
+            {
+                room.Room4(zone, i, j);
+            }
+            void Room5(string[,] zone, int i, int j)
+            {
+                room.Room5(zone, i, j);
+            }
+            void Room6(string[,] zone, int i, int j)
+            {
+                room.Room6(zone, i, j);
+            }
+            void Room7(string[,] zone, int i, int j)
+            {
+                room.Room7(zone, i, j);
+            }
+            void Room8(string[,] zone, int i, int j)
+            {
+                room.Room8(zone, i, j);
+            }
+            void Room9(string[,] zone, int i, int j)
+            {
+                room.Room9(zone, i, j);
+            }
+            void Room10(string[,] zone, int i, int j)
+            {
+                room.Room10(zone, i, j);
+            }
+            void Room11(string[,] zone, int i, int j)
+            {
+                room.Room11(zone, i, j);
+            }
+            void Room12(string[,] zone, int i, int j)
+            {
+                room.Room12(zone, i, j);
+            }
+            void Room13(string[,] zone, int i, int j)
+            {
+                room.Room13(zone, i, j);
+            }
+            void Room14(string[,] zone, int i, int j)
+            {
+                room.Room14(zone, i, j);
             }
             //Настройки врага
             int ye = 4, xe = 6;
@@ -172,18 +102,18 @@ namespace test_7_game
             bool hat = false;
             //Спавн игрока
             //int y = 5, x = 7;
-            int y = 4, x = 13;
+            int y = 5, x = 7;
             //Буфер
             int yb = y, xb = x;
             int ybe = ye, xbe = xe;
             //Номер локации
-            int loc = 3;
+            int loc = 11;
             //Состояние диалога
             bool ms = false;
             //Готовность к диалогу
             bool gm = false;
-            //Игрок
-            bool sw = true;
+            //Меч
+            bool sw = false;
             //Наличие квеста
             bool qst = false;
             //Комментарий торговца
@@ -194,6 +124,22 @@ namespace test_7_game
             bool trapdoor = false;
             //Место диалога
             int locms = 0;
+            //Номер диалога
+            int nms = 0;
+            //Тёмная сцена
+            bool dc = false;
+            //Первая встреча с личом
+            bool mlc = false;
+            //Возможность ходить
+            bool run = true;
+            //Диалог с могильщиком об дереве
+            bool mtrees = false;
+            //Квест от Бармена
+            bool quest_thanks = false;
+            bool quest_thanks_end = false;
+            //Квест от Дворфа
+            bool quest_beer = false;
+            bool quest_beer_end = false;
 
             while (true)
             {
@@ -216,15 +162,80 @@ namespace test_7_game
                         loc = 3;
                         x += 15;
                         break;
+                    case ( >= 3 and <= 5, 16, 6):
+                        loc = 7;
+                        x -= 15;
+                        break;
+                    case ( >= 3 and <= 5, -1, 7):
+                        loc = 6;
+                        x += 15;
+                        break;
+                    case ( 9, >= 6 and <= 8, 7):
+                        loc = 8;
+                        y -= 8;
+                        break;
+                    case (-1, >= 6 and <= 8, 8):
+                        loc = 7;
+                        y += 8;
+                        break;
+                    case ( >= 5 and <= 7, 16, 8):
+                        loc = 9;
+                        x -= 15;
+                        break;
+                    case ( >= 5 and <= 7, -1, 9):
+                        loc = 8;
+                        x += 15;
+                        break;
+                    case ( >= 5 and <= 7, 16, 9):
+                        loc = 10;
+                        x -= 15;
+                        break;
+                    case ( >= 5 and <= 7, -1, 10):
+                        loc = 9;
+                        x += 15;
+                        break;
+                    case (-1, >= 7 and <= 8, 10):
+                        loc = 11;
+                        y += 8;
+                        break;
+                    case (9, >= 7 and <= 8, 11):
+                        loc = 10;
+                        y -= 8;
+                        break;
+                    case (6, >= 7 and <= 8, 13):
+                        loc = 12;
+                        break;
+                    case (5, >= 7 and <= 8, 12):
+                        loc = 13;
+                        break;
+                    case (1, >= 1 and <= 2, 12):
+                        loc = 11;
+                        y += 2;
+                        break;
+                    case (1, >= 1 and <= 2, 11):
+                        loc = 12;
+                        y += 2;
+                        break;
+                    case (-1, >= 2 and <= 13, 14):
+                        loc = 10;
+                        y += 8;
+                        break;
+                    case (9, >= 2 and <= 13, 10):
+                        loc = 14;
+                        y -= 8;
+                        break;
                 }
-                switch (trapdoor, loc)
+                switch (trapdoor, loc, mlc)
                 {
-                    case (true, 3):
+                    case (true, 3, false):
                         loc = 4;
                         yb = 4;
                         xb = 3;
                         y = 4;
                         x = 3;
+                        break;
+                    case (true, 4, true):
+                        loc = 5;
                         break;
                 }
 
@@ -253,7 +264,7 @@ namespace test_7_game
                         xe--;
                     }
                 }
-                if (zone[y, x] == " #" || zone[y, x] == " |" || zone[y, x] == "__" || zone[y, x] == "| " || zone[y, x] == "* " || zone[y, x] == " ?" || zone[y, x] == " Y" || zone[y, x] == " w" || zone[y, x] == "[]")
+                if (zone[y, x] == " #" || zone[y, x] == " |" || zone[y, x] == "__" || zone[y, x] == "| " || zone[y, x] == "* " || zone[y, x] == " ?" || zone[y, x] == " Y" || zone[y, x] == " w" || zone[y, x] == "[]" || zone[y, x] == "ї`" || zone[y, x] == "i " || zone[y, x] == " X" || zone[y, x] == " L" || zone[y, x] == " т" || zone[y, x] == " g" || zone[y, x] == "=|" || zone[y, x] == "==" || zone[y, x] == " P" || zone[y, x] == ".," || zone[y, x] == "~~" || zone[y, x] == " W")
                 {
                     y = yb;
                     x = xb;
@@ -433,7 +444,7 @@ namespace test_7_game
                         {
                             zone[y, x] = " @";
                         }
-                        zone[i, j] = " .";
+                        zone[i, j] = "  ";
                     }
                 }
 
@@ -460,19 +471,56 @@ namespace test_7_game
                         switch (loc)
                         {
                             case 0:
-                                Room0(i, j);
+                                Room0(zone,i, j);
                                 break;
                             case 1:
-                                Room1(i, j);
+                                Room1(zone, i, j);
                                 break;
                             case 2:
-                                Room2(i, j);
+                                Room2(zone, i, j);
                                 break;
                             case 3:
-                                Room3(i, j);
+                                Room3(zone, i, j);
                                 break;
                             case 4:
-                                Room4(i, j);
+                                if (dc == false)
+                                {
+                                    Room4d(zone, i, j);
+                                } 
+                                else
+                                {
+                                    Room4(zone, i, j);
+                                }
+                                break;
+                            case 5:
+                                Room5(zone, i, j);
+                                break;
+                            case 6:
+                                Room6(zone, i, j);
+                                break;
+                            case 7:
+                                Room7(zone, i, j);
+                                break;
+                            case 8:
+                                Room8(zone, i, j);
+                                break;
+                            case 9:
+                                Room9(zone, i, j);
+                                break;
+                            case 10:
+                                Room10(zone, i, j);
+                                break;
+                            case 11:
+                                Room11(zone, i, j);
+                                break;
+                            case 12:
+                                Room12(zone, i, j);
+                                break;
+                            case 13:
+                                Room13(zone, i, j);
+                                break;
+                            case 14:
+                                Room14(zone, i, j);
                                 break;
                         }
                         
@@ -522,6 +570,104 @@ namespace test_7_game
                         Console.WriteLine("Открытый ржавый люк\nСпуститься: F");
                         trapdoor = true;
                         break;
+                    case (4, >= 8 and <= 10, false, 10):
+                    case ( >= 3 and <= 5, 9, false, 10):
+                        Console.WriteLine("К северу - Таверна WindPeak\nК югу - плантация\nК западу - кладбище\nК востоку - тайная тропа");
+                        break;
+                    case ( >= 4 and <= 6, 2, false, 8):
+                    case ( 5, >= 1 and <= 3, false, 8):
+                        Console.WriteLine("Дерево прорастающее потолок?");
+                        break;
+                    case (4, >= 3 and <= 5, false, 6):
+                    case ( >= 3 and <= 5, 4, false, 6):
+                        Console.WriteLine("*Факел горит ярким пламенем*\nИнтересно, что имел ввиду лич?");
+                        break;
+                    case (4, 6, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 6;
+                        gm = true;
+                        break;
+                    case (6, 6, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 7;
+                        gm = true;
+                        break;
+                    case (4, 8, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 8;
+                        gm = true;
+                        break;
+                    case (6, 8, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 9;
+                        gm = true;
+                        break;
+                    case (4, 10, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 10;
+                        gm = true;
+                        break;
+                    case (6, 10, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 11;
+                        gm = true;
+                        break;
+                    case (4, 12, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 12;
+                        gm = true;
+                        break;
+                    case (6, 12, false, 8):
+                        Console.WriteLine("Старая могила \nОсмотреть: F");
+                        locms = 13;
+                        gm = true;
+                        break;
+                    case (5, 4, false, 8):
+                    case ( >= 4 and <= 6, 3, false, 8):
+                        if (mtrees == false)
+                        {
+                            Console.WriteLine("Старик с лопатой\nПогворить: F");
+                            locms = 14;
+                            gm = true;
+                            mtrees = true;
+                            run = false;
+                        }
+                        if (quest_thanks == true && quest_thanks_end == false)
+                        {
+                            Console.WriteLine("Старик с лопатой\nПогворить: F");
+                            locms = 16;
+                            gm = true;
+                            quest_thanks_end = true;
+                            run = false;
+                        }
+                        break;
+                    case ( 3, 8, false, 11):
+                        if (quest_thanks == false)
+                        {
+                            Console.WriteLine("Хозяин таверны\nПогворить: F");
+                            locms = 15;
+                            gm = true;
+                            run = false;
+                            quest_thanks = true;
+                        }
+                        break;
+                }
+                switch (y, x, ms, loc, nms, mlc)
+                {
+                    case (4, 3, false, 4, 0, false):
+                        gm = true;
+                        locms = 4;
+                        break;
+                    case (4, 3, false, 5, 0, true):
+                        Console.WriteLine(".........: F");
+                        gm = true;
+                        locms = 5;
+                        break;
+                }
+                if(dc == false && loc == 4d)
+                {
+                    Console.WriteLine("Вокруг очень темно, рядом стоит факел.\nЗажечь?: F");
+                    run = false;
                 }
 
                 //Текст бар
@@ -574,9 +720,144 @@ namespace test_7_game
                         ms = false;
                         break;
                 }
-                switch (ms, dd, locms)
+                switch (ms, locms, nms)
                 {
-                    case (true, true, 4):
+                    case (true, 6, 0):
+                        Console.WriteLine("Надпись на могиле:\nТ...е... не разобрать");
+                        ms = false;
+                        break;
+                    case (true, 7, 0):
+                        Console.WriteLine("Надпись на могиле:\nДрорганес");
+                        ms = false;
+                        break;
+                    case (true, 8, 0):
+                        Console.WriteLine("Надпись на могиле:\nТоинс");
+                        ms = false;
+                        break;
+                    case (true, 9, 0):
+                    case (true, 11, 0):
+                    case (true, 12, 0):
+                        Console.WriteLine("Надпись на могиле:\nНе разобрать");
+                        ms = false;
+                        break;
+                    case (true, 10, 0):
+                        Console.WriteLine("Надпись на могиле:\nЭбетт");
+                        ms = false;
+                        break;
+                    case (true, 13, 0):
+                        Console.WriteLine("Надпись на могиле:\nАртемий:Ъ");
+                        ms = false;
+                        break;
+                    case (true, 4, 0):
+                        Console.WriteLine("АААААА");
+                        nms++;
+                        break;
+                    case (true, 4, 1):
+                        Console.WriteLine("Я окружён.. Таков мой конец?\nЧто ж..");
+                        nms++;
+                        break;
+                    case (true, 4, 2):
+                        Console.WriteLine("ДАВАЙТЕ! Я готов принять свою судьбу..");
+                        mlc = true;
+                        nms = 0;
+                        ms = false;
+                        break;
+                    case (true, 5, 0):
+                        Console.WriteLine("*На другой стороне комнаты стоит скелет окутанный в лохмотья*");
+                        nms++;
+                        break;
+                    case (true, 5, 1):
+                        Console.WriteLine("..Лич?..");
+                        nms++;
+                        break;
+                    case (true, 5, 2):
+                        Console.WriteLine("Зови меня Транед, перед смертью знай.");
+                        nms++;
+                        break;
+                    case (true, 5, 3):
+                        Console.WriteLine("Я запомнил тебя.");
+                        nms++;
+                        break;
+                    case (true, 5, 4):
+                        Console.Clear();
+                        Console.WriteLine("\n\n\n\n\t\t\t...\n\n\n\n");
+                        nms = 0;
+                        ms = false;
+                        loc = 13;
+                        yb = 2;
+                        xb = 4;
+                        y = 2;
+                        x = 4;
+                        run = true;
+                        hp = 1;
+                        break;
+                    case (true, 14, 0):
+                        Console.WriteLine("...");
+                        nms++;
+                        break;
+                    case (true, 14, 1):
+                        Console.WriteLine("Тебе наверное интересно что это за дерево?");
+                        nms++;
+                        break;
+                    case (true, 14, 2):
+                        Console.WriteLine("..");
+                        nms++;
+                        break;
+                    case (true, 14, 3):
+                        Console.WriteLine("Говорят что из-за проклятия лича эта пещера \nхранит души тех кто погиб в ней.");
+                        nms++;
+                        break;
+                    case (true, 14, 4):
+                        Console.WriteLine("Я слышал что один волшебник посадил это дерево для того, \nчто-бы оно направляло души на поверхность.");
+                        nms++;
+                        break;
+                    case (true, 14, 5):
+                        Console.WriteLine("Хотел бы я, что бы это оказалось правдой..");
+                        nms++;
+                        break;
+                    case (true, 14, 6):
+                        Console.WriteLine("После моей смерти вряд ли кто-то будет ухаживать за этим местом.");
+                        nms = 0;
+                        ms = false;
+                        run = true;
+                        break;
+                    case (true, 15, 0):
+                        Console.WriteLine("О, проснулся?");
+                        nms++;
+                        break;
+                    case (true, 15, 1):
+                        Console.WriteLine("Тебя принёс старик с кладбища, сказал что-ты лежал без созния \nгде-то у входа в подземелье.");
+                        nms++;
+                        break;
+                    case (true, 15, 2):
+                        Console.WriteLine("Ты в таверне WindPeak! Безопасное место для тех кто хочет отдохнуть или выпить.");
+                        nms++;
+                        break;
+                    case (true, 15, 3):
+                        Console.WriteLine("Правда пить пока нечего..");
+                        nms++;
+                        break;
+                    case (true, 15, 4):
+                        Console.WriteLine("Но это вопрос времени!");
+                        nms++;
+                        break;
+                    case (true, 15, 5):
+                        Console.WriteLine("Кстати не переживай за комнату, старик заплатил за тебя.\nНеплохо было бы поблагодарить?");
+                        nms++;
+                        break;
+                    case (true, 15, 6):
+                        Console.WriteLine("Ладно, если что-то понадобиться обращайся.");
+                        nms = 0;
+                        ms = false;
+                        run = true;
+                        break;
+                    case (true, 16, 0):
+                        Console.WriteLine("Ты ведь тот парень которого я дотащил до таверны?");
+                        nms++;
+                        break;
+                    case (true, 16, 1):
+                        Console.WriteLine("");
+                        nms++;
                         break;
                     default:
                         break;
@@ -602,28 +883,44 @@ namespace test_7_game
 
                 //Временные данные
                 Console.WriteLine("\n" + y);
-                Console.WriteLine(x);
+                Console.WriteLine(x + "\n" + loc);
 
                 //Управление
                 ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
                 switch (consoleKeyInfo.Key)
                 {
                     case ConsoleKey.S:
-                        y++;
+                        if (run==true)
+                        {
+                            y++;
+                        }
                         break;
                     case ConsoleKey.W:
-                        y--;
+                        if (run==true)
+                        {
+                            y--;
+                        }
                         break;
                     case ConsoleKey.D:
-                        x++;
+                        if (run==true)
+                        {
+                            x++;
+                        }
                         break;
                     case ConsoleKey.A:
-                        x--;
+                        if (run == true)
+                        {
+                            x--;
+                        }
                         break;
                     case ConsoleKey.F:
                         if (gm == true)
                         {
                             ms = true;
+                        }
+                        if (loc == 4d)
+                        {
+                            dc = true;
                         }
                         break;
                     default:

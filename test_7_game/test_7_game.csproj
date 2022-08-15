@@ -9,7 +9,7 @@
     <RootNamespace>test_7_game</RootNamespace>
     <AssemblyName>test_7_game</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-	  <LangVersion>10.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rooms.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
