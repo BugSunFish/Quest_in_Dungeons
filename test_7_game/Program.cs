@@ -11,6 +11,8 @@ namespace test_7_game
         
         static void Main(string[] args)
         {
+            //Выключение курсора
+            Console.CursorVisible = false;
             //Рандомайзер
             Random random = new Random();
             //Размер поля
@@ -95,14 +97,14 @@ namespace test_7_game
                 }
             }
             //Игрок
-            int hp = 20;
+            int hp = 15;
             int mp = 10;
             int pw = 2;
             int money = 12;
             bool hat = false;
             //Спавн игрока
-            //int y = 5, x = 7;
             int y = 5, x = 7;
+            //int y = 5, x = 7;
             //Буфер
             int yb = y, xb = x;
             int ybe = ye, xbe = xe;
@@ -114,6 +116,8 @@ namespace test_7_game
             bool gm = false;
             //Меч
             bool sw = false;
+            //Сумка
+            bool bag = false;
             //Наличие квеста
             bool qst = false;
             //Комментарий торговца
@@ -134,12 +138,24 @@ namespace test_7_game
             bool run = true;
             //Диалог с могильщиком об дереве
             bool mtrees = false;
+            bool mtrees_end = false;
             //Квест от Бармена
             bool quest_thanks = false;
             bool quest_thanks_end = false;
             //Квест от Дворфа
             bool quest_beer = false;
-            bool quest_beer_end = false;
+            bool quest_beer_info = false;
+            bool quest_beer_end = true;
+            int Wheat = 0;
+            //Пшеница
+            bool w1 = false;
+            bool w2 = false;
+            bool w3 = false;
+            bool w4 = false;
+            bool w5 = false;
+            bool w6 = false;
+            bool w7 = false;
+            bool w8 = false;
 
             while (true)
             {
@@ -529,6 +545,23 @@ namespace test_7_game
                 }
 
                 //Зона действия
+                switch (y, x, ms, loc, nms, mlc)
+                {
+                    case (4, 3, false, 4, 0, false):
+                        gm = true;
+                        locms = 4;
+                        break;
+                    case (4, 3, false, 5, 0, true):
+                        Console.WriteLine(".........: F");
+                        gm = true;
+                        locms = 5;
+                        break;
+                }
+                if(dc == false && loc == 4d)
+                {
+                    Console.WriteLine("Вокруг очень темно, рядом стоит факел.\nЗажечь?: F");
+                    run = false;
+                }
                 switch (y, x, ms, loc)
                 {
                     case ( >= 3 and <= 5, 2, false, 0):
@@ -624,21 +657,17 @@ namespace test_7_game
                         break;
                     case (5, 4, false, 8):
                     case ( >= 4 and <= 6, 3, false, 8):
+                        if (quest_thanks == true && quest_thanks_end == false && mtrees_end == true)
+                        {
+                            Console.WriteLine("Старик с лопатой\nПогворить: F");
+                            locms = 16;
+                            gm = true;
+                        }
                         if (mtrees == false)
                         {
                             Console.WriteLine("Старик с лопатой\nПогворить: F");
                             locms = 14;
                             gm = true;
-                            mtrees = true;
-                            run = false;
-                        }
-                        if (quest_thanks == true && quest_thanks_end == false)
-                        {
-                            Console.WriteLine("Старик с лопатой\nПогворить: F");
-                            locms = 16;
-                            gm = true;
-                            quest_thanks_end = true;
-                            run = false;
                         }
                         break;
                     case ( 3, 8, false, 11):
@@ -647,27 +676,121 @@ namespace test_7_game
                             Console.WriteLine("Хозяин таверны\nПогворить: F");
                             locms = 15;
                             gm = true;
-                            run = false;
-                            quest_thanks = true;
+                        }
+                        if (quest_beer == true && quest_beer_info == false && quest_thanks == true && Wheat == 0)
+                        {
+                            Console.WriteLine("Хозяин таверны\nПогворить: F");
+                            locms = 20;
+                            gm = true;
+                        }
+                        if (hp < 20 && quest_thanks == true && gm == false && Wheat !=8)
+                        {
+                            Console.WriteLine("Хозяин таверны\nПогворить: F");
+                            locms = 17;
+                            gm = true;
+                        }
+                        if (quest_beer_end == false && Wheat == 8)
+                        {
+                            Console.WriteLine("Хозяин таверны\nПогворить: F");
+                            locms = 29;
+                            gm = true;
                         }
                         break;
-                }
-                switch (y, x, ms, loc, nms, mlc)
-                {
-                    case (4, 3, false, 4, 0, false):
-                        gm = true;
-                        locms = 4;
+                    case (7, 7, false, 14):
+                        if (hp < 20)
+                        {
+                            Console.WriteLine("Вода в источнике чуть ли не светится.\nОтпить: F");
+                            locms = 18;
+                            gm = true;
+                        }
                         break;
-                    case (4, 3, false, 5, 0, true):
-                        Console.WriteLine(".........: F");
-                        gm = true;
-                        locms = 5;
+                    case (3, 10, false, 11):
+                    case (4, >= 9 and <= 11, false, 11):
+                        if (quest_beer == false)
+                        {
+                            Console.WriteLine("Дворф, спит с кружкой пива в руках, символично.\nПогворить: F");
+                            locms = 19;
+                            gm = true;
+                        }
+                        if (quest_beer_end == true)
+                        {
+                            Console.WriteLine("Большая бочка с пивом, а нет, это Дворф.\nПогворить: F");
+                            locms = 30;
+                            gm = true;
+                        }
                         break;
-                }
-                if(dc == false && loc == 4d)
-                {
-                    Console.WriteLine("Вокруг очень темно, рядом стоит факел.\nЗажечь?: F");
-                    run = false;
+                    case (3, 6, false, 14):
+                    case (3, 4, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w1 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 21;
+                            gm = true;
+                        }
+                        break;
+                    case (5, 4, false, 14):
+                    case (5, 6, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w2 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 22;
+                            gm = true;
+                        }
+                        break;
+                    case (6, 1, false, 14):
+                    case (6, 3, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w3 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 23;
+                            gm = true;
+                        }
+                        break;
+                    case (5, 10, false, 14):
+                    case (5, 8, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w4 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 24;
+                            gm = true;
+                        }
+                        break;
+                    case (6, 8, false, 14):
+                    case (6, 10, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w5 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 25;
+                            gm = true;
+                        }
+                        break;
+                    case (4, 6, false, 14):
+                    case (4, 4, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w6 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 26;
+                            gm = true;
+                        }
+                        break;
+                    case (6, 11, false, 14):
+                    case (6, 13, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w7 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 27;
+                            gm = true;
+                        }
+                        break;
+                    case (4, 13, false, 14):
+                    case (4, 11, false, 14):
+                        if (quest_beer == true && Wheat < 8 && quest_beer_info == true && w8 == false)
+                        {
+                            Console.WriteLine("Пшеница.\nСрезать: F");
+                            locms = 28;
+                            gm = true;
+                        }
+                        break;
                 }
 
                 //Текст бар
@@ -722,6 +845,54 @@ namespace test_7_game
                 }
                 switch (ms, locms, nms)
                 {
+                    case (true, 28, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w8 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 27, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w7 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 26, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w6 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 25, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w5 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 24, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w4 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 23, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w3 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 22, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w2 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
+                    case (true, 21, 0):
+                        Console.WriteLine("Вы срезали пшеницу");
+                        w1 = true;
+                        ms = false;
+                        Wheat++;
+                        break;
                     case (true, 6, 0):
                         Console.WriteLine("Надпись на могиле:\nТ...е... не разобрать");
                         ms = false;
@@ -794,6 +965,8 @@ namespace test_7_game
                     case (true, 14, 0):
                         Console.WriteLine("...");
                         nms++;
+                        run = false;
+                        mtrees = true;
                         break;
                     case (true, 14, 1):
                         Console.WriteLine("Тебе наверное интересно что это за дерево?");
@@ -819,14 +992,17 @@ namespace test_7_game
                         Console.WriteLine("После моей смерти вряд ли кто-то будет ухаживать за этим местом.");
                         nms = 0;
                         ms = false;
+                        mtrees_end = true;
                         run = true;
                         break;
                     case (true, 15, 0):
                         Console.WriteLine("О, проснулся?");
                         nms++;
+                        run = false;
+                        quest_thanks = true;
                         break;
                     case (true, 15, 1):
-                        Console.WriteLine("Тебя принёс старик с кладбища, сказал что-ты лежал без созния \nгде-то у входа в подземелье.");
+                        Console.WriteLine("Тебя принёс старик с кладбища, сказал что-ты лежал без сознания \nгде-то у входа в подземелье.");
                         nms++;
                         break;
                     case (true, 15, 2):
@@ -854,10 +1030,244 @@ namespace test_7_game
                     case (true, 16, 0):
                         Console.WriteLine("Ты ведь тот парень которого я дотащил до таверны?");
                         nms++;
+                        run = false;
+                        quest_thanks_end = true;
                         break;
                     case (true, 16, 1):
-                        Console.WriteLine("");
+                        Console.WriteLine("Обычно, потеряв сознание в гнезде монстров, авантюристы погибают.");
                         nms++;
+                        break;
+                    case (true, 16, 2):
+                        Console.WriteLine("Но вокруг тебя не было ни души.");
+                        nms++;
+                        break;
+                    case (true, 16, 3):
+                        Console.WriteLine("Ты ведь видел его?");
+                        nms++;
+                        break;
+                    case (true, 16, 4):
+                        Console.WriteLine("..");
+                        nms++;
+                        break;
+                    case (true, 16, 5):
+                        Console.WriteLine("Постарайся не делать резких выводов.. \nТы можешь подумать что он запер нас тут.");
+                        nms++;
+                        break;
+                    case (true, 16, 6):
+                        Console.WriteLine("Но на деле это он заперт с нами.");
+                        nms++;
+                        break;
+                    case (true, 16, 7):
+                        Console.WriteLine("При следущей встрече скажи что мы были бы рад вновь его встретить.");
+                        nms++;
+                        break;
+                    case (true, 16, 8):
+                        Console.WriteLine("И передай эту сумку.");
+                        nms = 0;
+                        bag = true;
+                        ms = false;
+                        run = true;
+                        quest_thanks_end = true;
+                        break;
+                    case (true, 17, 0):
+                        Console.WriteLine("Выглядишь неважно.");
+                        nms++;
+                        run = false;
+                        break;
+                    case (true, 17, 1):
+                        Console.WriteLine("Возле плантации есть источник, отпей из него, станет легче.");
+                        nms++;
+                        break;
+                    case (true, 17, 2):
+                        Console.WriteLine("Поговори с людьми вокруг, может узнаешь что-то новое.");
+                        nms = 0;
+                        ms = false;
+                        run = true;
+                        break;
+                    case (true, 18, 0):
+                        Console.WriteLine("Вы чувствуете прилив сил.");
+                        nms = 0;
+                        hp = 20;
+                        ms = false;
+                        break;
+                    case (true, 19, 0):
+                        Console.WriteLine("ZZZzzz");
+                        nms++;
+                        run = false;
+                        break;
+                    case (true, 19, 1):
+                        Console.WriteLine("А!?");
+                        nms++;
+                        break;
+                    case (true, 19, 2):
+                        Console.WriteLine("Дрог я блъ тебя не вижу, я выпил вфё пиво в этом франом хфламешнике.");
+                        nms++;
+                        break;
+                    case (true, 19, 3):
+                        Console.WriteLine("*Хозяин таверны громко кашлянул*");
+                        nms++;
+                        break;
+                    case (true, 19, 4):
+                        Console.WriteLine("Ааагрх");
+                        nms++;
+                        break;
+                    case (true, 19, 5):
+                        Console.WriteLine("Чёрт, ты кто?");
+                        nms++;
+                        break;
+                    case (true, 19, 6):
+                        Console.WriteLine("АААААааа, ты тот парень которого старик приволок!?");
+                        nms++;
+                        break;
+                    case (true, 19, 7):
+                        Console.WriteLine("Ахереть ты как слепым котёнком в дыре той выжил?");
+                        nms++;
+                        break;
+                    case (true, 19, 8):
+                        Console.WriteLine("СТОЙ, не отвечай, это надо отметить.");
+                        nms++;
+                        break;
+                    case (true, 19, 9):
+                        Console.WriteLine("Ах да..");
+                        nms++;
+                        break;
+                    case (true, 19, 10):
+                        Console.WriteLine("Так орёл, давай так.");
+                        nms++;
+                        break;
+                    case (true, 19, 11):
+                        Console.WriteLine("Ты приносишь нам пиво, а я тебе то что в этой коробке.");
+                        nms++;
+                        break;
+                    case (true, 19, 12):
+                        Console.WriteLine("Бывай.!");
+                        nms = 0;
+                        ms = false;
+                        run = true;
+                        quest_beer = true;
+                        break;
+                    case (true, 20, 0):
+                        Console.WriteLine("Если нужно пиво, сходи к источнику, собери пшеницу");
+                        nms++;
+                        run = false;
+                        break;
+                    case (true, 20, 1):
+                        Console.WriteLine("Срежь её своим мечом.");
+                        nms = 0;
+                        ms = false;
+                        run = true;
+                        quest_beer_info = true;
+                        break;
+                    case (true, 29, 0):
+                        Console.WriteLine("Отлично, скоро будет готово.");
+                        Wheat = 0;
+                        ms = false;
+                        quest_beer_end = true;
+                        break;
+                    case (true, 30, 0):
+                        Console.WriteLine("ZZZzzz");
+                        run = false;
+                        nms++;
+                        break;
+                    case (true, 30, 1):
+                        Console.WriteLine("Готов уже?");
+                        nms++;
+                        break;
+                    case (true, 30, 2):
+                        Console.WriteLine("*Глубокий зевок*");
+                        nms++;
+                        break;
+                    case (true, 30, 3):
+                        Console.WriteLine("ИТАК");
+                        nms++;
+                        break;
+                    case (true, 30, 4):
+                        Console.WriteLine("ПИВНАЯ ДУЭЛЬ");
+                        nms++;
+                        break;
+                    case (true, 30, 5):
+                        Console.WriteLine("Я отдам тебе содержимое сундука, если перепьёшь меня!");
+                        nms++;
+                        break;
+                    case (true, 30, 6):
+                        Console.WriteLine("*Бармен смеясь* Ты и так пьян!");
+                        nms++;
+                        break;
+                    case (true, 30, 7):
+                        Console.WriteLine("GAMUT AI-MENU BURM");
+                        nms++;
+                        break;
+                    case (true, 30, 8):
+                        //Пивная дуэль
+                        int stamina = 20;
+                        int d_stamina = 20;
+                        int drunk = 0;
+                        int d_drunk = 0;
+                        int b = 0;
+                        bool[] arr = new bool[6];
+                        while (true)
+                        {
+                            Console.Clear();
+                            Console.WriteLine($"\t     Пивная дуэль\n\tТы\t\t  Дворф");
+                            Console.WriteLine($"       ST {stamina}\t\t ST   {d_stamina}");
+                            Console.WriteLine($"       DR {drunk}\t\t DR   {d_drunk}");
+                            if (b == 0)
+                            {
+                                b = 0;
+                                while (b != 3)
+                                {
+                                    b = 0;
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        arr[i] = false;
+                                    }
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        if (random.Next(2) == 1)
+                                        {
+                                            arr[i] = true;
+                                        }
+                                    }
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        if (arr[i] == true) { b++; }
+                                    }
+                                }
+                            }
+                            if (arr[0])
+                            {
+                                Console.WriteLine("Пиво DR+4");
+                            }
+                            if (arr[1])
+                            {
+                                Console.WriteLine("Дворфийский глинтвейн DR+6");
+                            }
+                            if (arr[2])
+                            {
+                                Console.WriteLine("Медовуха DR+2");
+                            }
+                            if (arr[3])
+                            {
+                                Console.WriteLine("Ягодный фреш ST+2");
+                            }
+                            if (arr[4])
+                            {
+                                Console.WriteLine("Орочий грог ST-6");
+                            }
+                            if (arr[5])
+                            {
+                                Console.WriteLine("Грибной чай DR-4");
+                            }
+                            ConsoleKeyInfo consoleKey = Console.ReadKey(true);
+                            switch (consoleKey.Key)
+                            {
+                                case ConsoleKey.F:
+                                    b = 0;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -866,16 +1276,24 @@ namespace test_7_game
                 //Характеристики
                 Console.WriteLine($"\nHP = {hp}/20\nMP = {mp}/10\nPW = {pw}");
                 Console.WriteLine("-----------");
-                if (sw == true)
+                if (sw)
                 {
                     Console.WriteLine("Меч +3");
                     pw = 5;
                 }
-                if (hat == true)
+                if (hat)
                 {
                     Console.WriteLine("Шляпа");
                 }
-                if (sw == true)
+                if (bag)
+                {
+                    Console.WriteLine("Старая сумка");
+                }
+                if (quest_beer_info == true && quest_beer_end == false)
+                {
+                    Console.WriteLine($"Пшеница {Wheat}/8");
+                }
+                if (sw || hat || bag)
                 {
                     Console.WriteLine("-----------");
                 }
