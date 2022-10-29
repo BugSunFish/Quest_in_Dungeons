@@ -440,5 +440,30 @@ namespace test_7_game
             }
             Console.Write($" {zone[i, j]}");
         }
+        public void Room15(string[,] zone, int i, int j)
+        {
+            switch (i, j)
+            {
+                case ( >= 1 and <= 4, 0):
+                case ( >= 1 and <= 2, 15):
+                case ( >= 7 and <= 8, 15):
+                    zone[i, j] = "| ";
+                    break;
+                case (8, >= 0 and <= 14):
+                case (0, >= 1 and <= 6):
+                case (0, >= 8 and <= 14):
+                    zone[i, j] = "__";
+                    break;
+                case (2, 13):
+                    zone[i, j] = "=|";
+                    break;
+                case ( >=3 and <= 6, 15):
+                    zone[i, j] = " #";
+                    break;
+                default:
+                    break;
+            }
+            Console.Write($" {zone[i, j]}");
+        }
     }
 }

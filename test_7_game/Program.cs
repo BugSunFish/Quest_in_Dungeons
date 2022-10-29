@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +84,10 @@ namespace test_7_game
             {
                 room.Room14(zone, i, j);
             }
+            void Room15(string[,] zone, int i, int j)
+            {
+                room.Room15(zone, i, j);
+            }
             //Настройки врага
             int ye = 4, xe = 6;
             int hpe = 10;
@@ -97,7 +102,8 @@ namespace test_7_game
                 }
             }
             //Игрок
-            int hp = 15;
+            int hp = 20;
+            int maxhp = 20;
             int mp = 10;
             int pw = 2;
             int money = 12;
@@ -109,7 +115,7 @@ namespace test_7_game
             int yb = y, xb = x;
             int ybe = ye, xbe = xe;
             //Номер локации
-            int loc = 11;
+            int loc = 0;
             //Состояние диалога
             bool ms = false;
             //Готовность к диалогу
@@ -118,6 +124,16 @@ namespace test_7_game
             bool sw = false;
             //Сумка
             bool bag = false;
+            //Амулет
+            bool amulet = false;
+            //Зелье
+            int potion = 0;
+            //Броня
+            bool ironHat = false;
+            bool ironBib = false;
+            bool ironBoots = false;
+            //Диалог с магом
+            bool mWizard = false;
             //Наличие квеста
             bool qst = false;
             //Комментарий торговца
@@ -145,7 +161,7 @@ namespace test_7_game
             //Квест от Дворфа
             bool quest_beer = false;
             bool quest_beer_info = false;
-            bool quest_beer_end = true;
+            bool quest_beer_end = false;
             int Wheat = 0;
             //Пшеница
             bool w1 = false;
@@ -156,6 +172,18 @@ namespace test_7_game
             bool w6 = false;
             bool w7 = false;
             bool w8 = false;
+            //Пивная дуэль
+            bool win = false;
+            bool d_win = false;
+            //Секретный проход
+            bool secret_door = true;
+            void sDoor(int i, int j)
+            {
+                if (i == 0 && j == 7)
+                {
+                    zone[i, j] = "__";
+                }
+            }
 
             while (true)
             {
@@ -240,6 +268,17 @@ namespace test_7_game
                         loc = 14;
                         y -= 8;
                         break;
+                    case (>= 5 and <= 7, -1, 15):
+                        loc = 10;
+                        x += 15;
+                        break;
+                    case ( >= 5 and <= 7, 16, 10):
+                        loc = 15;
+                        x -= 15;
+                        hpe = 10;
+                        ye = 5;
+                        xe = 14;
+                        break;
                 }
                 switch (trapdoor, loc, mlc)
                 {
@@ -287,7 +326,7 @@ namespace test_7_game
                 }
                 
                 //Бой
-                if (y==ye && x==xe && runtime==0 && loc==3) 
+                if (y==ye && x==xe && runtime==0 && hpe > 0 && (loc==3 || loc ==15)) 
                 {
                     int menu = 1;
                     int menu2 = 0;
@@ -335,16 +374,16 @@ namespace test_7_game
                                 break;
                             case (1, 2):
                                 Console.Write("   <Назад>\t");
-                                if (hat == true)
+                                if (potion > 0)
                                 {
-                                    Console.Write("Шляпа\t");
+                                    Console.Write($"Зелье {potion}\t");
                                 }
                                 break;
                             case (2, 2):
                                 Console.Write("   Назад\t");
-                                if (hat == true)
+                                if (potion > 0)
                                 {
-                                    Console.Write("<Шляпа>\t");
+                                    Console.Write($"<Зелье {potion}>\t");
                                 }
                                 break;
                         }
@@ -400,6 +439,16 @@ namespace test_7_game
                                     case (1, 2):
                                         menu = 2;
                                         menu2 = 0;
+                                        break;
+                                    case (2, 2):
+                                        menu = 2;
+                                        menu2 = 0;
+                                        potion--;
+                                        hp += 20;
+                                        if (hp > maxhp)
+                                        {
+                                            hp = maxhp;
+                                        }
                                         break;
                                 }
                                 break;
@@ -479,8 +528,18 @@ namespace test_7_game
                         {
                             switch (loc)
                             {
+                                case 15:
                                 case 3:
                                     Enemy(i, j);
+                                    break;
+                            }
+                        }
+                        if (secret_door == true)
+                        {
+                            switch (loc)
+                            {
+                                case 15:
+                                    sDoor(i, j);
                                     break;
                             }
                         }
@@ -537,6 +596,9 @@ namespace test_7_game
                                 break;
                             case 14:
                                 Room14(zone, i, j);
+                                break;
+                            case 15:
+                                Room15(zone, i, j);
                                 break;
                         }
                         
@@ -695,9 +757,15 @@ namespace test_7_game
                             locms = 29;
                             gm = true;
                         }
+                        if (hp==20 && amulet)
+                        {
+                            Console.WriteLine("Кстати, может что-то хотел бы приобрести? \nАссортимент не большой, но что есть: F");
+                            locms = 34;
+                            gm = true;
+                        }
                         break;
                     case (7, 7, false, 14):
-                        if (hp < 20)
+                        if (hp < maxhp)
                         {
                             Console.WriteLine("Вода в источнике чуть ли не светится.\nОтпить: F");
                             locms = 18;
@@ -712,7 +780,7 @@ namespace test_7_game
                             locms = 19;
                             gm = true;
                         }
-                        if (quest_beer_end == true)
+                        if (quest_beer_end == true && amulet == false)
                         {
                             Console.WriteLine("Большая бочка с пивом, а нет, это Дворф.\nПогворить: F");
                             locms = 30;
@@ -791,6 +859,30 @@ namespace test_7_game
                             gm = true;
                         }
                         break;
+                    case (2, 4, false, 13):
+                        Console.WriteLine("Мягкая кровать..\nНа сон нет времени.");
+                        break;
+                    case ( >= 5 and <= 7, 12, false, 11):
+                    case (6, 13, false, 11):
+                        Console.WriteLine("Дворф поменьше\nПогворить: F");
+                        locms = 31;
+                        gm = true;
+                        break;
+                    case ( >= 5 and <= 7, 3, false, 11):
+                    case (6, 2, false, 11):
+                        if (mWizard == false)
+                        {
+                            Console.WriteLine("Старичок в большой шляпе, с книгой на столе, может быть он маг?\nПогворить: F");
+                            locms = 32;
+                            gm = true;
+                        }
+                        if (amulet && mWizard)
+                        {
+                            Console.WriteLine("Старичок в большой шляпе, с книгой на столе, может быть он маг?\nПогворить: F");
+                            locms = 33;
+                            gm = true;
+                        }
+                        break;
                 }
 
                 //Текст бар
@@ -845,6 +937,191 @@ namespace test_7_game
                 }
                 switch (ms, locms, nms)
                 {
+                    case (true, 34, 0):
+                        //Магазин
+                        {
+                            int mmenu = 1;
+                            int m = 0;
+                            bool buy = false;
+                            bool exit = false;
+                            int delay = 2;
+                            while (true)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("\t   Купить");
+                                Console.WriteLine("\t============");
+                                m = 0;
+                                m++;
+                                if (m == mmenu)
+                                {
+                                    Console.WriteLine($"\t> Зелья x{potion}\t7м");
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"\t  Зелья x{potion}\t7м");
+                                }
+                                if (buy && m == mmenu && money >= 7)
+                                {
+                                    potion++;
+                                    money -= 7;
+                                }
+                                if (ironHat == false)
+                                {
+                                    m++;
+                                    if (m == mmenu)
+                                    {
+                                        Console.WriteLine($"\t> Шлем\t\t12м");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"\t  Шлем\t\t12м");
+                                    }
+                                    if (buy && m == mmenu && money >= 12)
+                                    {
+                                        ironHat = true;
+                                        maxhp += 10;
+                                        money -= 12;
+                                    }
+                                }
+                                if (ironBib == false)
+                                {
+                                    m++;
+                                    if (m == mmenu)
+                                    {
+                                        Console.WriteLine($"\t> Кольчуга\t15м");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"\t  Кольчуга\t15м");
+                                    }
+                                    if (buy && m == mmenu && money >= 15)
+                                    {
+                                        ironBib = true;
+                                        maxhp += 12;
+                                        money -= 15;
+                                    }
+                                }
+                                if (ironBoots == false)
+                                {
+                                    m++;
+                                    if (m == mmenu)
+                                    {
+                                        Console.WriteLine($"\t> Сапоги\t10м");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"\t  Сапоги\t10м");
+                                    }
+                                    if (buy && m == mmenu && money >= 10)
+                                    {
+                                        ironBoots = true;
+                                        maxhp += 8;
+                                        money -= 10;
+                                    }
+                                }
+                                Console.WriteLine("\t============");
+                                Console.WriteLine($"\t  У вас {money}м\n\t  Выйти Tab");
+                                buy = false;
+                                if (delay > 0)
+                                {
+                                    delay--;
+                                }
+                                if (delay == 0)
+                                {
+                                    if (buy == false)
+                                    {
+                                        ConsoleKeyInfo consoleKey = Console.ReadKey(true);
+                                        switch (consoleKey.Key)
+                                        {
+                                            case ConsoleKey.S:
+                                                mmenu++;
+                                                break;
+                                            case ConsoleKey.W:
+                                                mmenu--;
+                                                break;
+                                            case ConsoleKey.F:
+                                                buy = true;
+                                                delay = 3;
+                                                break;
+                                            case ConsoleKey.Tab:
+                                                exit = true;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+                                if (mmenu > m)
+                                {
+                                    mmenu--;
+                                }
+                                if (mmenu < 1)
+                                {
+                                    mmenu++;
+                                }
+                                if (exit == true)
+                                {
+                                    break;
+                                }
+                            }
+                            Console.Clear();
+                            Console.WriteLine("\n\n\n\n\t\t  Возвращайся!\n\n\n\n");
+                        }
+                        run = true;
+                        ms = false;
+                        break;
+                    case (true, 33, 0):
+                        Console.WriteLine("Дивный амулет малой.");
+                        ms = false;
+                        break;
+                    case (true, 32, 0):
+                        Console.WriteLine("Приветствую, ты ведь тот малой которого старик притащил?");
+                        nms++;
+                        run = false;
+                        break;
+                    case (true, 32, 1):
+                        Console.WriteLine("Знал бы ты сколько до тебя тут таких же безпомощных было.");
+                        nms++;
+                        break;
+                    case (true, 32, 2):
+                        Console.WriteLine("Хотя в сравнении с теми на тебе ни царапины..");
+                        nms++;
+                        break;
+                    case (true, 32, 3):
+                        Console.WriteLine("Кого удаётся спасти, старик всех тащит.");
+                        nms++;
+                        break;
+                    case (true, 32, 4):
+                        Console.WriteLine("Хочешь спросить почему я его стариком называю?");
+                        nms++;
+                        break;
+                    case (true, 32, 5):
+                        Console.WriteLine("При нашей первой встрече мне небыло и дюжины, а у него уже все волосы были седые.");
+                        nms++;
+                        break;
+                    case (true, 32, 6):
+                        Console.WriteLine("Говорят они c хозяином таверны попали в эту пещеру вместе с самим личом!");
+                        nms++;
+                        break;
+                    case (true, 32, 7):
+                        Console.WriteLine("Ещё говорят что эту таверну видели в нескольких подземельях разные авантюристы!");
+                        nms++;
+                        break;
+                    case (true, 32, 8):
+                        Console.WriteLine("На самом деле я многое видел, так что поверить в это могу.");
+                        nms++;
+                        break;
+                    case (true, 32, 9):
+                        Console.WriteLine("Я здесь что-бы проверить это, но все как на зло молчат об этом..\nА для старика больная тема..");
+                        nms=0;
+                        mWizard = true;
+                        run = true;
+                        ms = false;
+                        break;
+                    case (true, 31, 0):
+                        Console.WriteLine("Он спит или просто умер?");
+                        ms = false;
+                        break;
                     case (true, 28, 0):
                         Console.WriteLine("Вы срезали пшеницу");
                         w8 = true;
@@ -1087,7 +1364,7 @@ namespace test_7_game
                     case (true, 18, 0):
                         Console.WriteLine("Вы чувствуете прилив сил.");
                         nms = 0;
-                        hp = 20;
+                        hp = maxhp;
                         ms = false;
                         break;
                     case (true, 19, 0):
@@ -1182,7 +1459,7 @@ namespace test_7_game
                         nms++;
                         break;
                     case (true, 30, 4):
-                        Console.WriteLine("ПИВНАЯ ДУЭЛЬ");
+                        Console.WriteLine("GAMUL GLASS");
                         nms++;
                         break;
                     case (true, 30, 5):
@@ -1198,83 +1475,451 @@ namespace test_7_game
                         nms++;
                         break;
                     case (true, 30, 8):
+                        Console.Clear();
+                        Console.WriteLine($"\t     Gamul Glass");
+                        Console.WriteLine($"  Это знаменитая игра где опонентам раздают по три разных\n напитка, каждый из них должен выбрать какой он выпьет,\n а какие два отдаст опоненту.");
+                        Console.WriteLine($"       ST - Стойкость игрока");
+                        Console.WriteLine($"       DR - Уровень опьянения");
+                        Console.WriteLine($"  Игрок проигрывает если уровень опьянения превышает стойкость.");
+                        Console.ReadKey();
                         //Пивная дуэль
-                        int stamina = 20;
-                        int d_stamina = 20;
-                        int drunk = 0;
-                        int d_drunk = 0;
-                        int b = 0;
-                        bool[] arr = new bool[6];
-                        while (true)
                         {
-                            Console.Clear();
-                            Console.WriteLine($"\t     Пивная дуэль\n\tТы\t\t  Дворф");
-                            Console.WriteLine($"       ST {stamina}\t\t ST   {d_stamina}");
-                            Console.WriteLine($"       DR {drunk}\t\t DR   {d_drunk}");
-                            if (b == 0)
+                            int stamina = 20;
+                            int d_stamina = 20;
+                            int drunk = 0;
+                            int d_drunk = 0;
+                            int b = 0;
+                            int n = 0;
+                            int menu = 1;
+                            int d_menu = 1;
+                            bool ready = false;
+                            bool[] arr = new bool[6];
+                            while (true)
                             {
-                                b = 0;
-                                while (b != 3)
+                                if (ready)
                                 {
-                                    b = 0;
-                                    for (int i = 0; i < 6; i++)
+                                    Console.Clear();
+                                    Console.WriteLine("\n\n");
+                                    n = 0;
+                                    if (arr[0] == false)
                                     {
-                                        arr[i] = false;
-                                    }
-                                    for (int i = 0; i < 6; i++)
-                                    {
-                                        if (random.Next(2) == 1)
+                                        n++;
+                                        switch (ready, arr[0], d_menu == n)
                                         {
-                                            arr[i] = true;
+                                            case (true, false, true):
+                                                d_drunk += 4;
+                                                Console.WriteLine("\tДворф пьёт Пиво DR+4");
+                                                break;
+                                            case (true, false, false):
+                                                drunk += 4;
+                                                Console.WriteLine("\tДворф отдаёт Пиво DR+4");
+                                                break;
                                         }
                                     }
-                                    for (int i = 0; i < 6; i++)
+                                    if (arr[1] == false)
                                     {
-                                        if (arr[i] == true) { b++; }
+                                        n++;
+                                        switch (ready, arr[1], d_menu == n)
+                                        {
+                                            case (true, false, true):
+                                                d_drunk += 6;
+                                                Console.WriteLine("\tДворф пьёт Дворфийский глинтвейн DR+6");
+                                                break;
+                                            case (true, false, false):
+                                                drunk += 6;
+                                                Console.WriteLine("\tДворф отдаёт Дворфийский глинтвейн DR+6");
+                                                break;
+                                        }
+                                    }
+                                    if (arr[2] == false)
+                                    {
+                                        n++;
+                                        switch (ready, arr[2], d_menu == n)
+                                        {
+                                            case (true, false, true):
+                                                d_drunk += 2;
+                                                Console.WriteLine("\tДворф пьёт Медовуха DR+2");
+                                                break;
+                                            case (true, false, false):
+                                                drunk += 2;
+                                                Console.WriteLine("\tДворф отдаёт Медовуха DR+2");
+                                                break;
+                                        }
+                                    }
+                                    if (arr[3] == false)
+                                    {
+                                        n++;
+                                        switch (ready, arr[3], d_menu == n)
+                                        {
+                                            case (true, false, true):
+                                                d_stamina += 2;
+                                                Console.WriteLine("\tДворф пьёт Ягодный фреш ST+2");
+                                                break;
+                                            case (true, false, false):
+                                                stamina += 2;
+                                                Console.WriteLine("\tДворф отдаёт Ягодный фреш ST+2");
+                                                break;
+                                        }
+                                    }
+                                    if (arr[4] == false)
+                                    {
+                                        n++;
+                                        switch (ready, arr[4], d_menu == n)
+                                        {
+                                            case (true, false, true):
+                                                d_stamina -= 6;
+                                                Console.WriteLine("\tДворф пьёт Орочий грог ST-6");
+                                                break;
+                                            case (true, false, false):
+                                                stamina -= 6;
+                                                Console.WriteLine("\tДворф отдаёт Орочий грог ST-6");
+                                                break;
+                                        }
+                                    }
+                                    if (arr[5] == false)
+                                    {
+                                        n++;
+                                        switch (ready, arr[5], d_menu == n)
+                                        {
+                                            case (true, false, true):
+                                                d_drunk -= 4;
+                                                Console.WriteLine("\tДворф отдаёт Грибной чай DR-4");
+                                                break;
+                                            case (true, false, false):
+                                                drunk -= 4;
+                                                Console.WriteLine("\tДворф отдаёт Грибной чай DR-4");
+                                                break;
+                                        }
+                                    }
+                                    Console.ReadKey();
+                                }
+                                Console.Clear();
+                                Console.WriteLine($"\t     Gamul Glass\n\tТы\t\t  Дворф");
+                                Console.WriteLine($"       ST {stamina}\t\t ST   {d_stamina}");
+                                Console.WriteLine($"       DR {drunk}\t\t DR   {d_drunk}");
+                                if (b == 0)
+                                {
+                                    b = 0;
+                                    while (b != 3)
+                                    {
+                                        b = 0;
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            arr[i] = false;
+                                        }
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            if (random.Next(2) == 1)
+                                            {
+                                                arr[i] = true;
+                                            }
+                                        }
+                                        for (int i = 0; i < 6; i++)
+                                        {
+                                            if (arr[i] == true) { b++; }
+                                        }
+                                    }
+                                }
+                                Console.Write("\nВыберете напиток который хотите выпить, \nостальные пойдут опоненту.\n");
+                                n = 0;
+                                if (arr[0])
+                                {
+                                    n++;
+                                    if (menu == n)
+                                    {
+                                        Console.Write("\n\t> Пиво DR+4");
+                                    }
+                                    else { Console.Write("\n\t  Пиво DR+4"); }
+                                    switch (ready, arr[0], menu == n)
+                                    {
+                                        case (true, true, true):
+                                            drunk += 4;
+                                            break;
+                                        case (true, true, false):
+                                            d_drunk += 4;
+                                            break;
+                                    }
+                                }
+                                if (arr[1])
+                                {
+                                    n++;
+                                    if (menu == n)
+                                    {
+                                        Console.Write("\n\t> Дворфийский глинтвейн DR+6");
+                                    }
+                                    else { Console.Write("\n\t  Дворфийский глинтвейн DR+6"); }
+                                    switch (ready, arr[1], menu == n)
+                                    {
+                                        case (true, true, true):
+                                            drunk += 6;
+                                            break;
+                                        case (true, true, false):
+                                            d_drunk += 6;
+                                            break;
+                                    }
+                                }
+                                if (arr[2])
+                                {
+                                    n++;
+                                    if (menu == n)
+                                    {
+                                        Console.Write("\n\t> Медовуха DR+2");
+                                    }
+                                    else { Console.Write("\n\t  Медовуха DR+2"); }
+                                    switch (ready, arr[2], menu == n)
+                                    {
+                                        case (true, true, true):
+                                            drunk += 2;
+                                            break;
+                                        case (true, true, false):
+                                            d_drunk += 2;
+                                            break;
+                                    }
+                                }
+                                if (arr[3])
+                                {
+                                    n++;
+                                    if (menu == n)
+                                    {
+                                        Console.Write("\n\t> Ягодный фреш ST+2");
+                                    }
+                                    else { Console.Write("\n\t  Ягодный фреш ST+2"); }
+                                    switch (ready, arr[3], menu == n)
+                                    {
+                                        case (true, true, true):
+                                            stamina += 2;
+                                            break;
+                                        case (true, true, false):
+                                            d_stamina += 2;
+                                            break;
+                                    }
+                                }
+                                if (arr[4])
+                                {
+                                    n++;
+                                    if (menu == n)
+                                    {
+                                        Console.Write("\n\t> Орочий грог ST-6");
+                                    }
+                                    else { Console.Write("\n\t  Орочий грог ST-6"); }
+                                    switch (ready, arr[4], menu == n)
+                                    {
+                                        case (true, true, true):
+                                            stamina -= 6;
+                                            break;
+                                        case (true, true, false):
+                                            d_stamina -= 6;
+                                            break;
+                                    }
+                                }
+                                if (arr[5])
+                                {
+                                    n++;
+                                    if (menu == n)
+                                    {
+                                        Console.Write("\n\t> Грибной чай DR-4");
+                                    }
+                                    else { Console.Write("\n\t  Грибной чай DR-4"); }
+                                    switch (ready, arr[5], menu == n)
+                                    {
+                                        case (true, true, true):
+                                            drunk -= 4;
+                                            break;
+                                        case (true, true, false):
+                                            d_drunk -= 4;
+                                            break;
+                                    }
+                                }
+                                {
+                                    if (d_drunk < 0)
+                                    {
+                                        d_drunk = 0;
+                                    }
+                                    if (drunk < 0)
+                                    {
+                                        drunk = 0;
+                                    }
+                                    if (d_drunk > 20)
+                                    {
+                                        d_drunk = 20;
+                                    }
+                                    if (drunk > 20)
+                                    {
+                                        drunk = 20;
+                                    }
+                                    if (d_stamina < 0)
+                                    {
+                                        d_stamina = 0;
+                                    }
+                                    if (stamina < 0)
+                                    {
+                                        stamina = 0;
+                                    }
+                                    if (d_stamina > 20)
+                                    {
+                                        d_stamina = 20;
+                                    }
+                                    if (stamina > 20)
+                                    {
+                                        stamina = 20;
+                                    }
+                                } //Выравнивание
+                                if (drunk > stamina)
+                                {
+                                    d_win = true;
+                                }
+                                if (d_drunk > d_stamina)
+                                {
+                                    win = true;
+                                }
+                                if (win == true || d_win == true)
+                                {
+                                    break;
+                                }
+                                if (ready)
+                                {
+                                    ready = false;
+                                    b = 0;
+                                }
+                                d_menu = 1 + random.Next(3);
+                                if (ready == false && b != 0)
+                                {
+                                    ConsoleKeyInfo consoleKey = Console.ReadKey(true);
+                                    switch (consoleKey.Key)
+                                    {
+                                        case ConsoleKey.F:
+                                            ready = true;
+                                            break;
+                                        case ConsoleKey.W:
+                                            menu--;
+                                            break;
+                                        case ConsoleKey.S:
+                                            menu++;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (menu == 0)
+                                    {
+                                        menu++;
+                                    }
+                                    if (menu == 4)
+                                    {
+                                        menu--;
                                     }
                                 }
                             }
-                            if (arr[0])
+                            Console.Clear();
+                            if (win && d_win == false)
                             {
-                                Console.WriteLine("Пиво DR+4");
+                                Console.WriteLine("\n\n\n\n\t\t\tВы победили!");
                             }
-                            if (arr[1])
+                            if (win == false && d_win)
                             {
-                                Console.WriteLine("Дворфийский глинтвейн DR+6");
+                                Console.WriteLine("\n\n\n\n\t\t\tВы проиграли..");
                             }
-                            if (arr[2])
+                            if (win && d_win)
                             {
-                                Console.WriteLine("Медовуха DR+2");
+                                Console.WriteLine("\n\n\n\n\t\t\tУ вас ничья!");
                             }
-                            if (arr[3])
-                            {
-                                Console.WriteLine("Ягодный фреш ST+2");
-                            }
-                            if (arr[4])
-                            {
-                                Console.WriteLine("Орочий грог ST-6");
-                            }
-                            if (arr[5])
-                            {
-                                Console.WriteLine("Грибной чай DR-4");
-                            }
-                            ConsoleKeyInfo consoleKey = Console.ReadKey(true);
-                            switch (consoleKey.Key)
-                            {
-                                case ConsoleKey.F:
-                                    b = 0;
-                                    break;
-                                default:
-                                    break;
-                            }
+                            Console.WriteLine("\n\n\n");
                         }
+                        nms++;
+                        break;
+                    case (true, 30, 9):
+                        switch(win, d_win)
+                        {
+                            case (true, false):
+                                Console.WriteLine("*Дворф сильно покачиваясь*\nААААААААА ХАРОШ");
+                                break;
+                            case (false, true):
+                                Console.WriteLine("АААААААААХАХАХ \nMETUN MENU RUKHAS");
+                                break;
+                            case (true, true):
+                                Console.WriteLine("ААААААААААХА");
+                                break;
+                        }
+                        nms++;
+                        break;
+                    case (true, 30, 10):
+                        switch (win, d_win)
+                        {
+                            case (true, false):
+                                Console.WriteLine("Так и быть, держи!");
+                                break;
+                            case (false, true):
+                                Console.WriteLine("Прости пацан, но сундук мой.");
+                                break;
+                            case (true, true):
+                                Console.WriteLine("Пьёш как Дворф!");
+                                break;
+                        }
+                        nms++;
+                        break;
+                    case (true, 30, 11):
+                        switch (win, d_win)
+                        {
+                            case (true, false):
+                                Console.WriteLine("*открывает сундук*");
+                                break;
+                            case (false, true):
+                                Console.WriteLine("*Бармен проходя прошептал что-то на ухо дворфу*");
+                                break;
+                            case (true, true):
+                                Console.WriteLine("У нас ничья, сундук твой!");
+                                break;
+                        }
+                        nms++;
+                        break;
+                    case (true, 30, 12):
+                        switch (win, d_win)
+                        {
+                            case (true, false):
+                                Console.WriteLine("Этот амулет светится когда чувствует что-то спрятанное.");
+                                amulet = true;
+                                break;
+                            case (false, true):
+                                Console.WriteLine("Men gajamu, этот сундук тебе нужнее..");
+                                break;
+                            case (true, true):
+                                Console.WriteLine("*открывает сундук*");
+                                break;
+                        }
+                        nms++;
+                        break;
+                    case (true, 30, 13):
+                        switch (win, d_win)
+                        {
+                            case (true, false):
+                                Console.WriteLine("Спасибо за пиво! Gamut meliku!");
+                                break;
+                            case (false, true):
+                                Console.WriteLine("Demup telek menu");
+                                break;
+                            case (true, true):
+                                Console.WriteLine("Этот амулет светится когда чувствует что-то спрятанное.\nБереги себя и его!");
+                                amulet = true;
+                                break;
+                        }
+                        nms++;
+                        break;
+                    case (true, 30, 14):
+                        Console.WriteLine("*Он опять ложится спать*");
+                        if (amulet == false)
+                        {
+                            Console.WriteLine("*Вы открываете сундук, в нём лежит амулет. Интересно для чего он?*");
+                            amulet = true;
+                        }
+                        nms = 0;
+                        ms = false;
+                        run = true;
                         break;
                     default:
                         break;
                 }
 
                 //Характеристики
-                Console.WriteLine($"\nHP = {hp}/20\nMP = {mp}/10\nPW = {pw}");
+                Console.WriteLine($"\nHP = {hp}/{maxhp}\nMP = {mp}/10\nPW = {pw}");
                 Console.WriteLine("-----------");
                 if (sw)
                 {
@@ -1289,11 +1934,31 @@ namespace test_7_game
                 {
                     Console.WriteLine("Старая сумка");
                 }
+                if (amulet)
+                {
+                    Console.WriteLine("Амулет Дворфа");
+                }
+                if (potion > 0)
+                {
+                    Console.WriteLine($"Зелье {potion}");
+                }
+                if (ironHat)
+                {
+                    Console.WriteLine("Шлем + 10");
+                }
+                if (ironBib)
+                {
+                    Console.WriteLine("Кольцуга + 12");
+                }
+                if (ironBoots)
+                {
+                    Console.WriteLine("Сапоги + 8");
+                }
                 if (quest_beer_info == true && quest_beer_end == false)
                 {
                     Console.WriteLine($"Пшеница {Wheat}/8");
                 }
-                if (sw || hat || bag)
+                if (sw || hat || bag || amulet)
                 {
                     Console.WriteLine("-----------");
                 }
@@ -1346,7 +2011,7 @@ namespace test_7_game
                 }
 
                 //Движение врага
-                if (runtime == 0 && hpe > 0 && loc==3)
+                if (runtime == 0 && hpe > 0 && (loc==3 || loc==15))
                 {
                     if ((ye - y) == 1 || (ye - y) == -1 || (ye - y) == 0 || (xe - x) == 1 || (xe - x) == -1 || (xe - x) == 1)
                     {
